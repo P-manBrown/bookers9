@@ -1,39 +1,15 @@
-<% if @model == 'user' %>
-<h3>【Usersモデルの検索結果】検索ワード：<%= @content %></h3>
-<% @records.each do |record| %>
-  <%= link_to user_path(record) do %>
-    <%= record.name %><br>
-  <% end %>
-<% end %>
-<% end %>
-
-
-<table>
-    <thead>
-        <tr>
-            <th>投稿者名</th>
-            <th>タイトル</th>
-            <th>本文</th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody id="post">
-    <% @records.each do |record| %>
-      <tr>
-        <td><%= record %></td>
-        <td><%= record.title %></td>
-        <td><%= record.body %></td>
-        <td><%= link_to "詳細", post_path(record) %></td>
-        <% if record.user == current_user %>
-          <td><%= link_to "編集", edit_post_path(record) %></td>
-          <td><%= link_to "削除", post_path(record), method: :delete, remote: true %></td>
-        <% else %>
-          <td></td>
-          <td></td>
-        <% end %>
-      </tr>
+  <% if @range == "User" %>
+    <h2>Users search for "<%= @word %>"</h2>
+    <% unless @users.present? %>
+    <p>検索条件と十分に一致する結果が見つかりませんでした。</p>
+    <% else %>
+      <%= render 'users/index',users: @users %>
     <% end %>
-    </tbody>
-</table>
+  <% else %>
+     <h2>Books search for "<%= @word %>"</h2>
+    <% unless @books.present? %>
+      <p>検索条件と十分に一致する結果が見つかりませんでした。</p>
+    <% else %>
+   <%= render 'books/index',books: @books %>
+    <% end %>
+  <% end %>

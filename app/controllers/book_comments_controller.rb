@@ -7,7 +7,8 @@ class BookCommentsController < ApplicationController
 		@book_comment.book_id = @book.id
 		@book_comment.user_id = current_user.id
 		if @book_comment.save
-  		redirect_to book_path(@book.id)
+			@book_comment = BookComment.new
+  		render :create
 		else
 		  render 'books/show'
 		end
@@ -15,9 +16,9 @@ class BookCommentsController < ApplicationController
 
 	def destroy
 		@book = Book.find(params[:book_id])
-  	book_comment = @book.book_comments.find(params[:id])
-		book_comment.destroy
-		redirect_to request.referer
+  	@book_comment = @book.book_comments.find(params[:id])
+		@book_comment.destroy
+		render :destroy
 	end
 
 	private
